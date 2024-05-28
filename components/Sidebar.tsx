@@ -8,6 +8,8 @@ import SidebarItem from "./SidebarItem";
 import { BiSearch } from "react-icons/bi";
 import Library from "./Library";
 import { Song } from "@/types";
+import usePlayer from "@/hooks/usePlayer";
+import { twMerge } from "tailwind-merge";
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -19,6 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   songs
 }) => {
   const pathname = usePathname();
+  const player = usePlayer();
 
   const routes = useMemo(() => [{
     icon: HiHome,
@@ -35,7 +38,13 @@ const Sidebar: React.FC<SidebarProps> = ({
   ], [pathname])
   
   return (
-    <div className="flex h-full text-white">
+    <div className={twMerge(`
+      flex
+      h-full
+      text-white
+    `,
+      player.activeId && "h-[calc(100%-80px)]"
+    )}>
       <div
       className="
         hidden
